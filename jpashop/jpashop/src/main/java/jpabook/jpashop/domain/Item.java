@@ -1,6 +1,7 @@
 package jpabook.jpashop.domain;
 
 
+import jpabook.jpashop.domain.exception.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.query.criteria.internal.OrderImpl;
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
-@Getter @Setter
+@Getter
 public abstract class Item {
 
   @Id @GeneratedValue
@@ -22,19 +23,27 @@ public abstract class Item {
   private String name;
 
   private int price;
-  private int stackQuantity;
+  private int stockQuantity;
 
   @OneToMany(mappedBy = "item")
   private List<ItemCategory> itemList  = new ArrayList<>();
 
   // ==연관 관계 메서드== //
-
   public void addItemCategory(ItemCategory itemCategory) {
     itemList.add(itemCategory);
     itemCategory.setItem(this);
   }
 
+  // ==비지니스 로직== //
+  public void addStock(int quantity){
+    this.stockQuantity += quantity;
+  }
 
-
-
+  public void removeStock(int quantity){
+    int restStock = this.stockQuantity + quantity;
+    if(restStock < 0) {
+      throw new NotEnoughStockException("need more stock");
+    }
+    this.stockQuantity = restStock;
+  }
 }
