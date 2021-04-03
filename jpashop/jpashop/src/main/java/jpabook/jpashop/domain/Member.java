@@ -16,6 +16,10 @@ public class Member {
 
   private String name;
 
+  // 멀티쓰레드 환경에서 동시에 같은 아이디 생성 방지용
+  @Column(unique = true)
+  private String userId;
+
   @Embedded
   private Address address;
 
