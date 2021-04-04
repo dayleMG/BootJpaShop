@@ -17,7 +17,7 @@ public class MemberService {
 
   @Transactional(readOnly = false)
   //회원 가입
-  private Long join(Member member) {
+  public Long join(Member member) {
     //중복 아이디 체크
     validateDuplicateUserId(member);
     memberRepo.save(member);

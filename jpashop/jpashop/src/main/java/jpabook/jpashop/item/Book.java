@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain.item;
+package jpabook.jpashop.item;
 
 import jpabook.jpashop.domain.Item;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class Movie extends Item {
+public class Book extends Item {
 
-  private String dircetor;
-  private String actor;
+  private String author;
+  private String isbn;
 }

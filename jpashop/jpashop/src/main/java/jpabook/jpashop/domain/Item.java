@@ -1,10 +1,8 @@
 package jpabook.jpashop.domain;
 
 
-import jpabook.jpashop.domain.exception.NotEnoughStockException;
+import jpabook.jpashop.exception.NotEnoughStockException;
 import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.query.criteria.internal.OrderImpl;
 
 import javax.persistence.*;
 import java.util.ArrayList;

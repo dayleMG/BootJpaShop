@@ -1,7 +1,7 @@
-package jpabook.jpashop.domain.service;
+package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.Item;
-import jpabook.jpashop.domain.repository.ItemRepo;
+import jpabook.jpashop.repository.ItemRepo;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
