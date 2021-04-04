@@ -2,6 +2,7 @@ package jpabook.jpashop.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public class Order {
   private Member member;
 
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-  private List<Orderitem> orderItems = new ArrayList<>();
+  private List<OrderItem> orderItems = new ArrayList<>();
 
   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "delivery_id")
@@ -34,6 +35,9 @@ public class Order {
   @Enumerated(EnumType.STRING)
   private OrderStatus orderStatus;
 
+  protected Order(){
+
+  }
 
   // ==연관관계 메서드== //
   public void setMember(Member member) {
@@ -41,7 +45,7 @@ public class Order {
     member.getOrderList().add(this);
   }
 
-  public void addOrderItem(Orderitem orderitem) {
+  public void addOrderItem(OrderItem orderitem) {
     orderItems.add(orderitem);
     orderitem.setOrder(this);
   }
@@ -50,5 +54,49 @@ public class Order {
     this.delivery = delivery;
     delivery.setOrder(this);
   }
+
+  // ==생성 메서드== //
+
+  public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+    Order order = new Order();
+    order.setMember(member);
+    order.setDelivery(delivery);
+
+    for(OrderItem orderItem: orderItems){
+      order.addOrderItem(orderItem);
+    }
+    order.setOrderStatus(OrderStatus.ORDER);
+    order.setOrderDate(LocalDateTime.now());
+    return order;
+
+  }
+
+
+  // == 비지니스 로직 == //
+  public void cancel() {
+    if(delivery.getDeliveryStatus() == DeliveryStatus.COMP){
+      throw new IllegalStateException("이미 배송이 완료된 제품은 취소가 불가능합니다");
+    }
+
+    this.setOrderStatus(OrderStatus.CANCEL);
+
+    // 재고 수량을 추가 해준다
+    for(OrderItem orderItem: orderItems){
+      orderItem.restoration();
+    }
+
+  }
+
+  // ==조회 로직 == //
+  // 전체 주문 가격을 조회
+  public int getPrice() {
+    int totalPrice = 0;
+    for(OrderItem orderItem: orderItems){
+      totalPrice = orderItem.getTotalPrice();
+    }
+    return totalPrice;
+  }
+
+
 
 }
