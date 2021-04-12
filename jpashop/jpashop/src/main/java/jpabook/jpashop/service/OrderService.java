@@ -5,9 +5,13 @@ import jpabook.jpashop.repository.ItemRepo;
 import jpabook.jpashop.repository.OrderRepo;
 import jpabook.jpashop.repository.MemberRepo;
 
+import jpabook.jpashop.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,14 +25,15 @@ public class OrderService {
   //주문
 
   @Transactional
-  public Long order(Long memberid, Long itemId, int count) {
+  public Long order(Long memberId, Long itemId, int count) {
     //엔티티 조회
-    Member member = memberRepo.findOne(memberid);
+    Member member = memberRepo.findOne(memberId);
     Item item = itemRepo.findOne(itemId);
 
     //배송 정보
     Delivery delivery = new Delivery();
-    delivery.setAddress(member.getAddress());
+    delivery.setAddress(member.getAddress()); 
+    delivery.setDeliveryStatus(DeliveryStatus.READY);
 
     //주문 상품 생성
     OrderItem orderItem = OrderItem.createOrder(item, item.getPrice(), count);
@@ -53,6 +58,11 @@ public class OrderService {
     // 주문 취소
     order.cancel();
 
+  }
+
+  // 검색
+  public List<Order> findOrders(OrderSearch orderSearch) {
+    return orderRepo.findAll(orderSearch);
   }
 
 
