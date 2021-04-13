@@ -20,3 +20,14 @@ https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JP
 ## 도메인 모델과 테이블 설계
 
 ![테이블](https://user-images.githubusercontent.com/63579963/114380978-996f4180-9bc5-11eb-8df8-a314cf7880f8.png)
+
+## Database configuration
+
+원하는 DB종류 선택(현재 MySQL 사용)
+```sh
+jpashop/src/main/resources/application.yml
+
+```
+
+
+
