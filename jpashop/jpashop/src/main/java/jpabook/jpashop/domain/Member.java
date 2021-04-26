@@ -27,4 +27,15 @@ public class Member {
   private List<Order> orderList = new ArrayList<>();
 
 
+  // ==비지니스 로직== //
+
+  public void createMember(String name, String userId) {
+    this.name = name;
+    this.userId = userId;
+  }
+
+  public void updateName(String name) {
+    this.name = name;
+  }
+
 }
