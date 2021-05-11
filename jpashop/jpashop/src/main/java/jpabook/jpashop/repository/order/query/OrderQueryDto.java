@@ -2,10 +2,12 @@ package jpabook.jpashop.repository.order.query;
 
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.OrderItem;
 import jpabook.jpashop.domain.OrderStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class OrderQueryDto {
@@ -15,6 +17,7 @@ public class OrderQueryDto {
   private LocalDateTime orderDate;
   private OrderStatus orderStatus;
   private Address address;
+  private List<OrderItemQueryDto> orderItems;
 
   public OrderQueryDto(Long orderId,String name,LocalDateTime orderDate,
                   OrderStatus orderStatus,Address address) {

@@ -58,9 +58,10 @@ public class OrderApiController {
 
   }
 
+  // JPA에서 DTO 직접 조회 방식
   @GetMapping("api/v2/orders")
   public Result orderV2() {
-    List<OrderQueryDto> orderDtos = orderQueryRepo.findOrderDtos();
+    List<OrderQueryDto> orderDtos = orderQueryRepo.findOrderQueryDtos();
 
     return new Result(orderDtos);
 
